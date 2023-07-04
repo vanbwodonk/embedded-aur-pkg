@@ -9,7 +9,7 @@ jobs:
   buildAUR:
     strategy:
       matrix:
-        repos: [pico-sdk, esp-idf, oss-cad-suite-build-bin]
+        repos: [pico-sdk, esp-idf, oss-cad-suite-build-bin, gowin-eda-ide]
 
       fail-fast: false
       
