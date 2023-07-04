@@ -9,12 +9,7 @@ jobs:
   buildAUR:
     strategy:
       matrix:
-        repos: [osu-lazer, weechat-notify-send, fpp, redsocks, drill, git-cola, qbittorrent-qt5, realesrgan-ncnn-vulkan, nexttrace, nomacs, python-torchaudio]
-        include:
-          - repos: git-cola
-            preinstall-pkgs: "at-spi2-core"
-          - repos: realesrgan-ncnn-vulkan
-            preinstall-pkgs: "vulkan-intel"
+        repos: [pico-sdk]
 
       fail-fast: false
       
@@ -39,12 +34,12 @@ jobs:
         allowUpdates: true
         tag: "packages"
         artifacts: "./*/*.zst"
-        token: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ secrets.GH_TOKEN }}
 
   buildNonAUR:
     strategy:
       matrix:
-        PKGBUILDs: [breeze10, python-pyclipper]
+        PKGBUILDs: []
 
       fail-fast: false
       
@@ -71,28 +66,5 @@ jobs:
           allowUpdates: true
           tag: "packages"
           artifacts: ${{ steps.makepkg.outputs.pkgfile0 }}
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GH_TOKEN }}
           
-  uploadToOneDrive:      
-    runs-on: ubuntu-latest
-    if: always()
-    needs: [buildAUR, buildNonAUR]
-
-    steps:
-      - uses: actions/checkout@v3
-      
-      - uses: actions/download-artifact@v3
-        id: download
-      
-      - uses: ./create-db-and-upload-action
-        with:
-          RCLONE_ONEDRIVE_CLIENT_ID: ${{ secrets.RCLONE_ONEDRIVE_CLIENT_ID }}
-          RCLONE_ONEDRIVE_CLIENT_SECRET: ${{ secrets.RCLONE_ONEDRIVE_CLIENT_SECRET }}
-          RCLONE_ONEDRIVE_REGION: global
-          RCLONE_ONEDRIVE_TOKEN: ${{ secrets.RCLONE_ONEDRIVE_TOKEN }}
-          RCLONE_ONEDRIVE_DRIVE_ID: ${{ secrets.RCLONE_ONEDRIVE_DRIVE_ID }}
-          RCLONE_ONEDRIVE_DRIVE_TYPE: personal
-          dest_path: /archrepo
-          repo_name: vifly
-          gpg-privatekey: ${{ secrets.gpg_private_key }}
-          local_path: ${{ steps.download.outputs.download-path }}
