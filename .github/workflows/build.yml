@@ -9,7 +9,7 @@ jobs:
   buildAUR:
     strategy:
       matrix:
-        repos: [pico-sdk, esp-idf]
+        repos: [pico-sdk, esp-idf, oss-cad-suite-build-bin]
 
       fail-fast: false
       
@@ -39,7 +39,7 @@ jobs:
   buildNonAUR:
     strategy:
       matrix:
-        PKGBUILDs: [oss-cad-suite-build-bin]
+        PKGBUILDs: []
 
       fail-fast: false
       
