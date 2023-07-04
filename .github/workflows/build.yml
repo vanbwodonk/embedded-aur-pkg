@@ -39,7 +39,7 @@ jobs:
   buildNonAUR:
     strategy:
       matrix:
-        PKGBUILDs: []
+        PKGBUILDs: [oss-cad-suite-build-bin]
 
       fail-fast: false
       
