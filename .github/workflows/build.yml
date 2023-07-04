@@ -9,7 +9,7 @@ jobs:
   buildAUR:
     strategy:
       matrix:
-        repos: [pico-sdk]
+        repos: [pico-sdk, esp-idf]
 
       fail-fast: false
       
