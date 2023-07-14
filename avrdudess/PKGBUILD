@@ -1,0 +1,31 @@
+# Maintainer: Arif Darmawan <arif.pens@gmail.com>
+
+pkgname=avrdudess
+pkgver=2.14
+pkgrel=0
+pkgdesc="AVRdudess AVR Programmer"
+arch=("x86_64")
+url="https://blog.zakkemble.net/avrdudess-a-gui-for-avrdude/"
+license=(GPL-3.0)
+depends=("mono" "avrdude")
+optdepends=()
+conflicts=()
+
+source=("avrdudess.ico" "avrdudess.desktop" "https://github.com/ZakKemble/AVRDUDESS/releases/download/v$pkgver/AVRDUDESS-$pkgver-portable.zip")
+sha256sums=('8a75b6823a1be523871f6757a6baa36b47a014f5c31cb208c49c91f75a014f16'
+	    '79a3a779a34a3ad9379d8276c9b724d2cedb4bf57c562156bb0d71b532f3ec04'
+	    'c77c5cb092c12553bc5dd578394bde67828ba8de73ff3d05b0d2db18748da07b')
+
+package() {
+	mkdir "${pkgdir}/opt/"
+	install -Dm644 "$srcdir"/avrdudess.desktop "$pkgdir"/usr/share/applications/avrdudess.desktop
+	mv "${srcdir}" "${pkgdir}/opt/${pkgname}"
+	rm "${pkgdir}/opt/${pkgname}/avrdude.exe"
+	rm "${pkgdir}/opt/${pkgname}/avrdude.conf"
+	rm "${pkgdir}/opt/${pkgname}/AVRDUDESS-$pkgver-portable.zip"
+
+	# Fix .xml permissions
+	chmod 777 "${pkgdir}/opt/${pkgname}/config.xml"
+	chmod 777 "${pkgdir}/opt/${pkgname}/bits.xml"
+	chmod 777 "${pkgdir}/opt/${pkgname}/presets.xml"
+}

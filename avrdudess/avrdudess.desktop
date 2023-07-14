@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=AVRdudess
+GenericName=AVR Programmer
+Comment=AVR Programmer
+Exec=mono /opt/avrdudess/avrdudess.exe
+Icon=/opt/avrdudess/avrdudess.ico
+Terminal=false
+Type=Application
+Categories=Tools;
+StartupNotify=false
