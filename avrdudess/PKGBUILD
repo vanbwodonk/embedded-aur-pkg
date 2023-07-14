@@ -7,22 +7,26 @@ pkgdesc="AVRdudess AVR Programmer"
 arch=("x86_64")
 url="https://blog.zakkemble.net/avrdudess-a-gui-for-avrdude/"
 license=(GPL-3.0)
-depends=("mono" "avrdude")
+depends=("mono" "avrdude" "avr-binutils")
 optdepends=()
 conflicts=()
 
-source=("avrdudess.ico" "avrdudess.desktop" "https://github.com/ZakKemble/AVRDUDESS/releases/download/v$pkgver/AVRDUDESS-$pkgver-portable.zip")
-sha256sums=('8a75b6823a1be523871f6757a6baa36b47a014f5c31cb208c49c91f75a014f16'
-	    '79a3a779a34a3ad9379d8276c9b724d2cedb4bf57c562156bb0d71b532f3ec04'
+source=("avrdudess.png" "avrdudess.desktop" "https://github.com/ZakKemble/AVRDUDESS/releases/download/v$pkgver/AVRDUDESS-$pkgver-portable.zip")
+sha256sums=('52b2a8dc2e155f9058fcd61342c08f0122491444340afc577a7b38d5d4e13dc5'
+	    '2f729d1cdb0de56f6ff414cc2087cfa6e682c7e2dbe78f41844143a020a90c7f'
 	    'c77c5cb092c12553bc5dd578394bde67828ba8de73ff3d05b0d2db18748da07b')
 
 package() {
 	mkdir "${pkgdir}/opt/"
 	install -Dm644 "$srcdir"/avrdudess.desktop "$pkgdir"/usr/share/applications/avrdudess.desktop
+	install -Dm644 "$srcdir"/avrdudess.png "$pkgdir"/usr/share/pixmaps/avrdudess.png
 	mv "${srcdir}" "${pkgdir}/opt/${pkgname}"
 	rm "${pkgdir}/opt/${pkgname}/avrdude.exe"
+	rm "${pkgdir}/opt/${pkgname}/avr-size.exe"
 	rm "${pkgdir}/opt/${pkgname}/avrdude.conf"
 	rm "${pkgdir}/opt/${pkgname}/AVRDUDESS-$pkgver-portable.zip"
+	rm "${pkgdir}/opt/${pkgname}/avrdudess.desktop"
+	rm "${pkgdir}/opt/${pkgname}/avrdudess.png"
 
 	# Fix .xml permissions
 	chmod 777 "${pkgdir}/opt/${pkgname}/config.xml"
