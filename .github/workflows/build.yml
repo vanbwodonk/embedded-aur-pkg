@@ -44,7 +44,7 @@ jobs:
   buildNonAUR:
     strategy:
       matrix:
-        PKGBUILDs: [avrdudess, dsview-master]
+        PKGBUILDs: [avrdudess, dsview-master, progit]
 
       fail-fast: false
 
