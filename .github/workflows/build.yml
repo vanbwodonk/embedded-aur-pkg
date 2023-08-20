@@ -9,14 +9,12 @@ jobs:
   buildAUR:
     strategy:
       matrix:
-        repos: [pico-sdk, esp-idf, oss-cad-suite-build-bin, hterm, stm32cubemx, stm32cubeide, saleae-logic2, picoscope, picoscope7beta, packetsender, serialplot-hg, dsview, xc3sprog-svn, gowin-eda-ide]
+        repos: [pico-sdk, esp-idf, oss-cad-suite-build-bin, hterm, stm32cubemx, stm32cubeide, saleae-logic2, picoscope, picoscope7beta, packetsender, serialplot-hg, dsview, xc3sprog-svn]
         include:
           - repos: dsview
             preinstall-pkgs: "libusb"
           - repos: xc3sprog-svn
             preinstall-pkgs: "svn"
-          - repos: gowin-eda-ide
-            preinstall-pkgs: "fontconfig, freetype2"
 
       fail-fast: false
       
@@ -36,6 +34,36 @@ jobs:
         name: ${{ matrix.repos }}
         if-no-files-found: error
         
+    - uses: ncipollo/release-action@v1
+      with:
+        allowUpdates: true
+        tag: "packages"
+        artifacts: "./*/*.zst"
+        token: ${{ secrets.GH_TOKEN }}
+
+  buildGOWIN:
+    strategy:
+      matrix:
+        repos: [gowin-eda-ide]
+
+      fail-fast: false
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - uses: ./build-gowin-action
+      with:
+        repo-name: ${{ matrix.repos }}
+        preinstallPkgs: ${{ matrix.preinstall-pkgs }}
+
+    - uses: actions/upload-artifact@v3
+      with:
+        path: ./*/*.pkg.tar.zst
+        name: ${{ matrix.repos }}
+        if-no-files-found: error
+
     - uses: ncipollo/release-action@v1
       with:
         allowUpdates: true
