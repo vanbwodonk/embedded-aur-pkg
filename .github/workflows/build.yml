@@ -44,7 +44,7 @@ jobs:
   buildGOWIN:
     strategy:
       matrix:
-        repos: [gowin-eda-ide, gowin-eda-edu-ide]
+        repos: [gowin-eda-ide]
 
       fail-fast: false
 
@@ -54,6 +54,36 @@ jobs:
     - uses: actions/checkout@v3
 
     - uses: ./build-gowin-action
+      with:
+        repo-name: ${{ matrix.repos }}
+        preinstallPkgs: ${{ matrix.preinstall-pkgs }}
+
+    - uses: actions/upload-artifact@v3
+      with:
+        path: ./*/*.pkg.tar.zst
+        name: ${{ matrix.repos }}
+        if-no-files-found: error
+
+    - uses: ncipollo/release-action@v1
+      with:
+        allowUpdates: true
+        tag: "packages"
+        artifacts: "./*/*.zst"
+        token: ${{ secrets.GH_TOKEN }}
+
+  buildGOWINedu:
+    strategy:
+      matrix:
+        repos: [gowin-eda-edu-ide]
+
+      fail-fast: false
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - uses: ./build-gowin-edu-action
       with:
         repo-name: ${{ matrix.repos }}
         preinstallPkgs: ${{ matrix.preinstall-pkgs }}
