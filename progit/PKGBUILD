@@ -2,7 +2,7 @@
 
 pkgname=git-desktop-pro
 pkgrel=1
-pkgver=9.9.1
+pkgver=9.9.2
 pkgdesc="The intuitive, fast, and beautiful cross-platform Git client."
 url="https://www.gitkraken.com/"
 provides=('gitkraken')
@@ -20,7 +20,7 @@ source=(
     "run.sh"
     "gpatcher_linux_amd64"
 )
-sha256sums=('be32099243bbe63e0990a26032a8958dccf7cb4da1b6012e6b092b63b183c625'
+sha256sums=('66312819b35ae8912315a80da747bbb010179ffe91c7c7fc01e4c459e8552c57'
             'e68542e9c940b4e0ba622cefd7a2e448d5dc2386ec6f756485d6eff9a3b2e555'
             '6e6c6ac37287e1ec5d5266689a49d18899488be901b21f5cb9749f545453626f'
             'f5464c3897f1b554a64685770a8f0957708e9ac90b67069bf912dd16666caf90')
