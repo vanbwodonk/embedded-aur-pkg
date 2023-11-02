@@ -9,7 +9,7 @@ jobs:
   buildAUR:
     strategy:
       matrix:
-        repos: [pico-sdk, picotool, esp-idf, oss-cad-suite-build-bin, hterm, stm32cubemx, stm32cubeide, saleae-logic2, picoscope, picoscope7beta, ps7b_libps6000a, ps7b_libps6000, ps7b_libps2000, ps7b_libps2000a, packetsender, serialplot-hg, dsview, xc3sprog-svn, eagle]
+        repos: [cangaroo, pico-sdk, picotool, esp-idf, oss-cad-suite-build-bin, hterm, stm32cubemx, stm32cubeide, saleae-logic2, picoscope, picoscope7beta, ps7b_libps6000a, ps7b_libps6000, ps7b_libps2000, ps7b_libps2000a, packetsender, serialplot-hg, dsview, xc3sprog-svn, eagle]
         include:
           - repos: dsview
             preinstall-pkgs: "libusb"
