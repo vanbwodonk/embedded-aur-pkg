@@ -33,6 +33,6 @@ if [ ! -z "$INPUT_PREINSTALLPKGS" ]; then
     pacman -Syu --noconfirm "$INPUT_PREINSTALLPKGS"
 fi
 
-sudo --set-home -u builder yay -S --noconfirm --builddir=./ "$pkgname"
+sudo --set-home -u builder paru -S --noconfirm --builddir=./ "$pkgname"
 cd "./gowin-eda" || exit 1
 python3 ../build-aur-action/encode_name.py
