@@ -9,7 +9,7 @@ jobs:
   buildAUR:
     strategy:
       matrix:
-        repos: [ can-utils, pico-sdk, picotool, esp-idf, oss-cad-suite-build-bin, hterm, stm32cubemx, stm32cubeide, saleae-logic2, packetsender, serialplot-hg, dsview, xc3sprog-svn, eagle]
+        repos: [ can-utils, pico-sdk, picotool, esp-idf, oss-cad-suite-build-bin, hterm, stm32cubemx, stm32cubeide, saleae-logic2, packetsender, dsview, xc3sprog-svn, eagle]
         include:
           - repos: dsview
             preinstall-pkgs: "libusb"
@@ -104,7 +104,7 @@ jobs:
   buildNonAUR:
     strategy:
       matrix:
-        PKGBUILDs: [avrdudess, dsview-master, progit]
+        PKGBUILDs: [avrdudess, dsview-master, progit, serialplot-git]
 
       fail-fast: false
 
