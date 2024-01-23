@@ -1,7 +1,7 @@
 # Maintainer: Patrik Bachan <patrikbachan at gmail dot com>
 pkgname=serialplot-git
 _pkgname=serialplot
-pkgver=1.0.0
+pkgver=877.fadfbeea9d5c
 pkgrel=1
 pkgdesc="Small and simple software for plotting data from serial port in realtime"
 arch=('i686' 'x86_64')
