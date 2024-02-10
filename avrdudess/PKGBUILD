@@ -1,7 +1,7 @@
 # Maintainer: Arif Darmawan <arif.pens@gmail.com>
 
 pkgname=avrdudess
-pkgver=2.15
+pkgver=2.16
 pkgrel=0
 pkgdesc="AVRdudess AVR Programmer"
 arch=("x86_64")
@@ -14,7 +14,7 @@ conflicts=()
 source=("avrdudess.png" "avrdudess.desktop" "https://github.com/ZakKemble/AVRDUDESS/releases/download/v$pkgver/AVRDUDESS-$pkgver-portable.zip")
 sha256sums=('52b2a8dc2e155f9058fcd61342c08f0122491444340afc577a7b38d5d4e13dc5'
 	    '2f729d1cdb0de56f6ff414cc2087cfa6e682c7e2dbe78f41844143a020a90c7f'
-	    '4c82ef79216564ece477b5e95ba85a599ceb5936fb7ff18ca23f9f1cd10960b0')
+	    '3b0e9661d41f10395d23dabd093a5dd77c2d2d9193124707c73d1983b408648b')
 
 package() {
 	mkdir "${pkgdir}/opt/"
