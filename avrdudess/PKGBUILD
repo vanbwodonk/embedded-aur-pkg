@@ -29,6 +29,8 @@ package() {
 	rm "${pkgdir}/opt/${pkgname}/avrdudess.png"
 
 	# Fix .xml permissions
+ 	touch "${pkgdir}/opt/${pkgname}/config.xml"
+ 	chmod 777 "${pkgdir}/opt/${pkgname}/config.xml"
 	chmod 777 "${pkgdir}/opt/${pkgname}/bits.xml"
 	chmod 777 "${pkgdir}/opt/${pkgname}/presets.xml"
 }
