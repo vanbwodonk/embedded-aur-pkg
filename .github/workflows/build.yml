@@ -28,6 +28,7 @@ jobs:
         repo-name: ${{ matrix.repos }}
         preinstallPkgs: ${{ matrix.preinstall-pkgs }}
     
+    - run: rm ./*/*-debug-*
     - uses: actions/upload-artifact@v3
       with:
         path: ./*/*.pkg.tar*
@@ -88,6 +89,7 @@ jobs:
         repo-name: ${{ matrix.repos }}
         preinstallPkgs: ${{ matrix.preinstall-pkgs }}
 
+    - run: rm ./*/*-debug-*
     - uses: actions/upload-artifact@v3
       with:
         path: ./*/*.pkg.tar.zst
@@ -120,6 +122,7 @@ jobs:
           pkgdir: ${{ matrix.PKGBUILDs }}
           aurDeps: true
 
+      - run: rm ./*/*-debug-*
       - uses: actions/upload-artifact@v3
         with:
           path: ./*/*.pkg.tar.zst
