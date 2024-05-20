@@ -11,8 +11,8 @@ jobs:
       matrix:
         repos: [ aria2-pro, can-utils, pico-sdk, picotool, esp-idf, oss-cad-suite-build-bin, hterm, stm32cubemx, stm32cubeide, saleae-logic2, packetsender, xc3sprog-svn, eagle, squareline-studio, mavproxy, jsbsim-git, python-pymavlink, easyeda-bin, easyeda2kicad]
         include:
-          - repos: dsview
-            preinstall-pkgs: "libusb"
+          #- repos: dsview
+          #  preinstall-pkgs: "libusb"
           - repos: xc3sprog-svn
             preinstall-pkgs: "svn"
 
