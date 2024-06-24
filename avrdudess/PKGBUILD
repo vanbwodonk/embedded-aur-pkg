@@ -14,7 +14,7 @@ conflicts=()
 source=("avrdudess.png" "avrdudess.desktop" "https://github.com/ZakKemble/AVRDUDESS/releases/download/v$pkgver/AVRDUDESS-$pkgver-portable.zip")
 sha256sums=('52b2a8dc2e155f9058fcd61342c08f0122491444340afc577a7b38d5d4e13dc5'
 	    '2f729d1cdb0de56f6ff414cc2087cfa6e682c7e2dbe78f41844143a020a90c7f'
-	    '4dc5d7183b3be50d9ec3e9b607fa74d18db83b9689425a7edc57009fb1925722')
+	    'fe8dfcc4f1885c6d13e98645cead5987696b5df3a36d5719acdc0f857b699ea1')
 
 package() {
 	mkdir "${pkgdir}/opt/"
