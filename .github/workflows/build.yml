@@ -72,41 +72,41 @@ jobs:
   #       artifacts: "./*/*.zst"
   #       token: ${{ secrets.GH_TOKEN }}
 
-  buildGOWINedu:
-    strategy:
-      matrix:
-        repos: [gowin-eda-edu-ide]
-
-      fail-fast: false
-
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v3
-
-    - uses: ./build-gowin-edu-action
-      with:
-        repo-name: ${{ matrix.repos }}
-        preinstallPkgs: ${{ matrix.preinstall-pkgs }}
-
-    - run: sudo rm -f ./*/*-debug-*
-    - uses: actions/upload-artifact@v3
-      with:
-        path: ./*/*.pkg.tar.zst
-        name: ${{ matrix.repos }}
-        if-no-files-found: error
-
-    - uses: ncipollo/release-action@v1
-      with:
-        allowUpdates: true
-        tag: "packages"
-        artifacts: "./*/*.zst"
-        token: ${{ secrets.GH_TOKEN }}
+  # buildGOWINedu:
+  #   strategy:
+  #     matrix:
+  #       repos: [gowin-eda-edu-ide]
+  #
+  #     fail-fast: false
+  #
+  #   runs-on: ubuntu-latest
+  #
+  #   steps:
+  #   - uses: actions/checkout@v3
+  #
+  #   - uses: ./build-gowin-edu-action
+  #     with:
+  #       repo-name: ${{ matrix.repos }}
+  #       preinstallPkgs: ${{ matrix.preinstall-pkgs }}
+  #
+  #   - run: sudo rm -f ./*/*-debug-*
+  #   - uses: actions/upload-artifact@v3
+  #     with:
+  #       path: ./*/*.pkg.tar.zst
+  #       name: ${{ matrix.repos }}
+  #       if-no-files-found: error
+  #
+  #   - uses: ncipollo/release-action@v1
+  #     with:
+  #       allowUpdates: true
+  #       tag: "packages"
+  #       artifacts: "./*/*.zst"
+  #       token: ${{ secrets.GH_TOKEN }}
 
   buildNonAUR:
     strategy:
       matrix:
-        PKGBUILDs: [avrdudess, progit, serialplot-git]
+        PKGBUILDs: [avrdudess, progit, serialplot-git, gowin-eda-edu]
 
       fail-fast: false
 
