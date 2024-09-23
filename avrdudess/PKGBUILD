@@ -12,9 +12,9 @@ optdepends=()
 conflicts=()
 
 source=("avrdudess.png" "avrdudess.desktop" "https://github.com/ZakKemble/AVRDUDESS/releases/download/v$pkgver/AVRDUDESS-$pkgver-portable.zip")
-sha256sums=('37ddc52e25e9d56c212392b01fab21a36c3216d91b383c021cea4455b56761d7'
+sha256sums=('52b2a8dc2e155f9058fcd61342c08f0122491444340afc577a7b38d5d4e13dc5'
 	    '2f729d1cdb0de56f6ff414cc2087cfa6e682c7e2dbe78f41844143a020a90c7f'
-	    'fe8dfcc4f1885c6d13e98645cead5987696b5df3a36d5719acdc0f857b699ea1')
+	    '37ddc52e25e9d56c212392b01fab21a36c3216d91b383c021cea4455b56761d7')
 
 package() {
 	mkdir "${pkgdir}/opt/"
