@@ -106,7 +106,7 @@ jobs:
   buildNonAUR:
     strategy:
       matrix:
-        PKGBUILDs: [avrdudess, progit, serialplot-git, gowin-eda-edu]
+        PKGBUILDs: [avrdudess, progit, serialplot-git, gowin-eda-edu, pico-pioasm-bin]
 
       fail-fast: false
 
