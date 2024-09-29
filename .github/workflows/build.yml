@@ -35,12 +35,12 @@ jobs:
         name: ${{ matrix.repos }}
         if-no-files-found: error
         
-    - uses: ncipollo/release-action@v1
-      with:
-        allowUpdates: true
-        tag: "packages"
-        artifacts: "./*/*.pkg.tar*"
-        token: ${{ secrets.GH_TOKEN }}
+    # - uses: ncipollo/release-action@v1
+    #   with:
+    #     allowUpdates: true
+    #     tag: "packages"
+    #     artifacts: "./*/*.pkg.tar*"
+    #     token: ${{ secrets.GH_TOKEN }}
 
   # buildGOWIN:
   #   strategy:
@@ -129,12 +129,12 @@ jobs:
           name: ${{ matrix.PKGBUILDs }}
           if-no-files-found: error
 
-      - uses: ncipollo/release-action@v1
-        with:
-          allowUpdates: true
-          tag: "packages"
-          artifacts: ${{ steps.makepkg.outputs.pkgfile0 }}
-          token: ${{ secrets.GH_TOKEN }}
+      # - uses: ncipollo/release-action@v1
+      #   with:
+      #     allowUpdates: true
+      #     tag: "packages"
+      #     artifacts: ${{ steps.makepkg.outputs.pkgfile0 }}
+      #     token: ${{ secrets.GH_TOKEN }}
 
   uploadDB:
     permissions: write-all
@@ -174,5 +174,5 @@ jobs:
         with:
           allowUpdates: true
           tag: "packages"
-          artifacts: "./upload_packages/*.sig,./upload_packages/*.files,./upload_packages/*.db,./upload_packages/*.tar.gz"
+          artifacts: "./upload_packages/*"
           token: ${{ secrets.GH_TOKEN }}

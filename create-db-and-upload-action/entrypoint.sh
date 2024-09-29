@@ -3,7 +3,7 @@ set -e
 
 init_path=$PWD
 mkdir upload_packages
-find $local_path -type f -name "*.tar.zst" -exec cp {} ./upload_packages/ \;
+find $local_path -type f -name "*.pkg.tar*" -exec cp {} ./upload_packages/ \;
 
 if [ ! -f ~/.config/rclone/rclone.conf ]; then
     mkdir --parents ~/.config/rclone
@@ -24,17 +24,17 @@ fi
 
 cd upload_packages || exit 1
 
-repo-add "./${repo_name:?}.db.tar.gz" ./*.tar.zst
+repo-add "./${repo_name:?}.db.tar.gz" ./*.pkg.tar*
 # python3 $init_path/create-db-and-upload-action/sync.py
 # rm "./${repo_name:?}.db.tar.gz"
 # rm "./${repo_name:?}.files.tar.gz"
 
 if [ ! -z "$gpg_key" ]; then
-    packages=( "*.tar.zst" )
+    packages=( "*.pkg.tar*" )
     for name in $packages
     do
         gpg --detach-sig --yes $name
     done
-    repo-add --verify --sign "./${repo_name:?}.db.tar.gz" ./*.tar.zst
+    repo-add --verify --sign "./${repo_name:?}.db.tar.gz" ./*.pkg.tar*
 fi
 # rclone copy ./ "onedrive:${dest_path:?}" --copy-links
