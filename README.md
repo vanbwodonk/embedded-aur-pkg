@@ -1,11 +1,11 @@
 ### Embedded AUR Package
  AUR build package for embedded developer
 
-#### Repo Installation
+#### Repository Installation
 Add the following code snippet to your /etc/pacman.conf:
 
 ```bash
-[embedded-repo]
+[embedded-aur]
 SigLevel = Optional
 Server = https://github.com/vanbwodonk/embedded-aur-pkg/releases/latest/download
 ```

@@ -160,7 +160,7 @@ jobs:
           # RCLONE_ONEDRIVE_DRIVE_ID: ${{ secrets.RCLONE_ONEDRIVE_DRIVE_ID }}
           # RCLONE_ONEDRIVE_DRIVE_TYPE: personal
           dest_path: /embedded-aur-pkg
-          repo_name: embedded-repo
+          repo_name: embedded-aur
           gpg-privatekey: ${{ secrets.gpg_private_key }}
           local_path: ${{ steps.download.outputs.download-path }}
 
