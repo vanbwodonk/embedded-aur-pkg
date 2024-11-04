@@ -10,7 +10,7 @@ license=('GPL3')
 depends=('java-runtime>=8' 'hackrf')
 makedepends=('gendesk')
 source=("$pkgname-$pkgver.zip::https://github.com/pavsa/hackrf-spectrum-analyzer/releases/download/v${pkgver}/hackrf_spectrum_analyzer.zip")
-sha256sums=('f7e6d640631f559e5d9e92ba6fe5270689ee5195a7298654e054231d9485acab')
+sha256sums=('7f67ba240a114fafbae04db4e10bb9b025a27461794c51833c2dcbff3839eb89')
 
 package() {
   cd "${srcdir}/lib"
