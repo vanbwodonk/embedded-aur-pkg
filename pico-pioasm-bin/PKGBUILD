@@ -1,5 +1,5 @@
 pkgname=pico-pioasm-bin
-pkgver=2.3.0
+pkgver=4.0.1
 pkgrel=1
 pkgdesc='raspberrypi picoasm'
 arch=('x86_64')
@@ -9,10 +9,10 @@ provides=('pioasm')
 depends=('glibc')
 
 source=(
-    "https://github.com/earlephilhower/pico-quick-toolchain/releases/download/2.3.0/x86_64-linux-gnu.pioasm-efe2103.240919.tar.gz"
+    "https://github.com/earlephilhower/pico-quick-toolchain/releases/download/4.0.1/x86_64-linux-gnu.pioasm-efe2103.240929.tar.gz"
 )
 
-sha256sums=('7827603f11dd3bcda23c92440913980ee7eff6e867f686aa8188de7dea7dbb6d')
+sha256sums=('974481d6b9678c73cefc3c7df657647bc216f2d6c2bdef12236aa06542246973')
 package() {
     install -Dm755 -t "${pkgdir}/usr/bin" \
         'pioasm/pioasm'
