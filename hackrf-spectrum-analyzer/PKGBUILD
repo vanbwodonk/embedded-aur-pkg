@@ -1,7 +1,7 @@
 # Maintainer: Dimitris Kiziridis <ragouel at outlook dot com>
 
 pkgname=hackrf-spectrum-analyzer
-pkgver=1.6
+pkgver=2024.11.10
 pkgrel=1
 pkgdesc="Spectrum Analyzer GUI for hackrf_sweep"
 arch=('i686' 'x86_64')
@@ -10,10 +10,10 @@ license=('GPL3')
 depends=('java-runtime>=8' 'hackrf')
 makedepends=('gendesk')
 source=("$pkgname-$pkgver.zip::https://github.com/pavsa/hackrf-spectrum-analyzer/releases/download/v${pkgver}/hackrf_spectrum_analyzer.zip")
-sha256sums=('7f67ba240a114fafbae04db4e10bb9b025a27461794c51833c2dcbff3839eb89')
+sha256sums=('6a5052b0bda2a3d9b36d97a5f39497809ae85837554d08920a74b3ebbfae84e6')
 
 package() {
-  cd "${srcdir}/lib"
+  cd "${srcdir}/hackrf-spectrum-analyzer/lib"
   install -Dm644 program.png "${pkgdir}/usr/share/pixmaps/${pkgname}.png"
   install -Dm644 hackrf_sweep_spectrum_analyzer.jar -t "${pkgdir}/usr/share/java/${pkgname}"
   echo "#!/bin/sh
