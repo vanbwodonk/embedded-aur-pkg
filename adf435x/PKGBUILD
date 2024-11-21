@@ -1,0 +1,28 @@
+pkgname=ADF435x
+pkgrel=1
+pkgver=1.0.0
+pkgdesc="ADF435x Register Viewer"
+url="https://www.analog.com"
+provides=('ADF435x')
+arch=('x86_64')
+license=('custom')
+depends=('wine')
+makedepends=()
+backup=()
+install=''
+source=(
+    "ADF435x.tar.gz"
+    "ADF435x.desktop"
+    "analog-devices.png"
+)
+sha256sums=('2004b2a34cab823175d6e47e10e3c19275acd596d0480a3220070871291289c0'
+            '7269592d6fab0a80e87c6c2ca7033e14fb575aaea4bb423157a218eb418c9667'
+            '5a3a5d735cf66ac89acf74cabdf80c169aec76234fa70546aeda00d413351cf5')
+
+package() {
+    install -d "$pkgdir"/opt
+    cp -R "$srcdir"/ADF435x "$pkgdir"/opt/ADF435x
+
+    install -D -m644 "./ADF435x.desktop" "${pkgdir}/usr/share/applications/ADF435x.desktop"
+    install -D -m644 "./analog-devices.png" "$pkgdir/usr/share/pixmaps/analog-devices.png"
+}

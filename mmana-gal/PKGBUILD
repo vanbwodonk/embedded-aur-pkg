@@ -1,0 +1,29 @@
+pkgname=MMANA-GAL
+pkgrel=1
+pkgver=1.0.0
+pkgdesc="MMANA-GAL antenna designer"
+url="http://gal-ana.de/basicmm/en/"
+provides=('MMANA-GAL')
+arch=('x86_64')
+license=('custom')
+depends=('wine')
+makedepends=()
+backup=()
+install=''
+source=(
+    "MMANA-GAL.tar.gz"
+    "MMANA-GAL.desktop"
+    "MMANA-GAL.png"
+)
+sha256sums=('317ce67c24def1f1c7319a6b6ce50eb2ac7db56d02852ee73c8af3d8d58bf44e'
+            'cd6b094ba13d50f7bd46ac5067ac0f0015190bb8e473a27c81be9cd8b9070442'
+            'd0bf11320b4fca12e0a15cd0704be65548549647833b0c71f2f4e4cac84c33eb')
+
+package() {
+    install -d "$pkgdir"/opt
+    cp -R "$srcdir"/MMANA-GAL "$pkgdir"/opt/MMANA-GAL
+    chown $USER:$USER -R "$pkgdir"/opt/MMANA-GAL
+
+    install -D -m644 "./MMANA-GAL.desktop" "${pkgdir}/usr/share/applications/MMANA-GAL.desktop"
+    install -D -m644 "./MMANA-GAL.png" "$pkgdir/usr/share/pixmaps/MMANA-GAL.png"
+}

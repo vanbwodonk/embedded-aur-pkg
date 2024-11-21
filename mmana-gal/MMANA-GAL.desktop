@@ -1,0 +1,13 @@
+[Desktop Entry]
+Comment=Antenna Designer
+Exec=wine /opt/MMANA-GAL/MMANAGALBasic35.exe
+Icon=MMANA-GAL.png
+Name=MMANA-GAL
+NoDisplay=false
+Path=
+StartupNotify=true
+Terminal=false
+TerminalOptions=
+Type=Application
+X-KDE-SubstituteUID=false
+X-KDE-Username=

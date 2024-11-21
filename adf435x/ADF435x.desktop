@@ -1,0 +1,13 @@
+[Desktop Entry]
+Comment= ADF435x register viewer
+Exec=wine /opt/ADF435x/ADF435x.exe
+Icon=analog-devices.png
+Name=ADF4351
+NoDisplay=false
+Path=
+StartupNotify=true
+Terminal=false
+TerminalOptions=
+Type=Application
+X-KDE-SubstituteUID=false
+X-KDE-Username=

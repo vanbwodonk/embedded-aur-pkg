@@ -1,0 +1,29 @@
+pkgname=dishal
+pkgrel=1
+pkgver=1.0.0
+pkgdesc="Crystal Ladder Filter Designer"
+url=""
+provides=('dishal')
+arch=('x86_64')
+license=('custom')
+depends=('wine')
+makedepends=()
+backup=()
+install=''
+source=(
+    "Dishal2052.tar.gz"
+    "dishal.desktop"
+    "xtal.png"
+)
+sha256sums=('3c75d541e1571f8690d071a1a9ef2036f242a325bb663ed9f968ea7db2397b06'
+            '846a5c65886fdcfb6f4a0144a29d8fd8c88f1abd1e62174d02140fb6b05d7026'
+            '8453da87f003e9c86350db8b868fdd7134f8715c164f8bcbe8db8f058fbbbd26')
+
+package() {
+    install -d "$pkgdir"/opt
+    cp -R "$srcdir"/Dishal2052 "$pkgdir"/opt/Dishal2052
+    chown $USER:$USER -R "$pkgdir"/opt//Dishal2052
+
+    install -D -m644 "./dishal.desktop" "${pkgdir}/usr/share/applications/dishal.desktop"
+    install -D -m644 "./xtal.png" "$pkgdir/usr/share/pixmaps/xtal.png"
+}
