@@ -9,7 +9,7 @@ jobs:
   buildAUR:
     strategy:
       matrix:
-        repos: [ nanovna-saver, coil64, imsprog, hterm, aria2-pro, can-utils, pico-sdk, picotool, esp-idf, oss-cad-suite-build-bin, stm32cubemx, stm32cubeide, stm32cubeclt, serial-studio, saleae-logic2, packetsender, xc3sprog-svn, eagle, dsview, qelectrotech, wavedrom-editor]
+        repos: [ nanovna-saver, ltspice, coil64, imsprog, hterm, aria2-pro, can-utils, pico-sdk, picotool, esp-idf, oss-cad-suite-build-bin, stm32cubemx, stm32cubeide, stm32cubeclt, serial-studio, saleae-logic2, packetsender, xc3sprog-svn, eagle, dsview, qelectrotech, wavedrom-editor]
         include:
           - repos: dsview
             preinstall-pkgs: "libusb"
