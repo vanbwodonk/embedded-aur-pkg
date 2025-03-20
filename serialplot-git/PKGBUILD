@@ -1,29 +1,35 @@
-# Maintainer: Patrik Bachan <patrikbachan at gmail dot com>
+# Maintainer: Janek Graff <janek.graff at gmx dot com>
+# This is a modified version of xorlys' serialplot-hg package (https://aur.archlinux.org/packages/serialplot-hg)
+# It changes the upstream to the git repository and uses the qwt dependency that is delivered by the build process of serialplot
 pkgname=serialplot-git
 _pkgname=serialplot
-pkgver=877.fadfbeea9d5c
+pkgver=v0.13.0.r3.g59010f3
 pkgrel=1
 pkgdesc="Small and simple software for plotting data from serial port in realtime"
 arch=('i686' 'x86_64')
-url="https://hackaday.io/project/5334-serialplot-realtime-plotting-software"
+url="https://github.com/hyOzd/serialplot"
 license=('GPL3')
-depends=('qwt' 'qt5-base' 'qt5-serialport' 'hicolor-icon-theme')
-makedepends=('mercurial' 'cmake')
+depends=('qt6-base' 'qt6-serialport' 'hicolor-icon-theme')
+makedepends=('git' 'cmake' 'make')
 provides=('serialplot')
-conflicts=('serialplot')
+conflicts=('serialplot-hg')
 source=('git+https://github.com/hyOzd/serialplot.git')
 sha256sums=('SKIP')
 
 pkgver() {
   cd "$srcdir/$_pkgname"
-  echo $(hg identify -n).$(hg identify -i)
+  (
+    set -o pipefail
+    git describe --long --tags 2>/dev/null | sed 's/\([^-]*-g\)/r\1/;s/-/./g' ||
+      printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+  )
 }
 
 build() {
   cd "$srcdir/$_pkgname"
-  mkdir build
+  mkdir -p build
   cd build
-  cmake -DBUILD_QWT=false -DCMAKE_CXX_FLAGS=-DUPDATE_TYPE_PKGMAN -DCMAKE_INSTALL_PREFIX=/usr ..
+  cmake -DCMAKE_CXX_FLAGS=-DUPDATE_TYPE_PKGMAN -DCMAKE_INSTALL_PREFIX=/usr ..
   make
 }
 package() {
