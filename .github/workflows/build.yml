@@ -9,7 +9,7 @@ jobs:
   buildAUR:
     strategy:
       matrix:
-        repos: [ oss-cad-suite-build-bin, picoscope7beta, ps7b_libps2000, ps7b_libps2000a, ps7b_libps3000, ps7b_libps3000a, ps7b_libps4000, ps7b_libps4000a, ps7b_libps5000, ps7b_libps5000a, ps7b_libps6000, ps7b_libps6000a, nanovna-saver, ltspice, coil64, imsprog, hterm, aria2-pro, can-utils, pico-sdk, picotool, esp-idf, oss-cad-suite-build-bin, stm32cubemx, stm32cubeide, stm32cubeclt, serial-studio, saleae-logic2, packetsender, xc3sprog-svn, eagle, qelectrotech, wavedrom-editor]
+        repos: [ picoscope7beta, ps7b_libps2000, ps7b_libps2000a, ps7b_libps3000, ps7b_libps3000a, ps7b_libps4000, ps7b_libps4000a, ps7b_libps5000, ps7b_libps5000a, ps7b_libps6000, ps7b_libps6000a, nanovna-saver, ltspice, coil64, imsprog, hterm, aria2-pro, can-utils, pico-sdk, picotool, esp-idf, oss-cad-suite-build-bin, stm32cubemx, stm32cubeide, stm32cubeclt, serial-studio, saleae-logic2, packetsender, xc3sprog-svn, eagle, qelectrotech, wavedrom-editor]
         include:
           # - repos: dsview
           #   preinstall-pkgs: "libusb"
