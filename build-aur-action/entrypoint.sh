@@ -35,4 +35,20 @@ fi
 
 sudo --set-home -u builder paru -S --noconfirm --builddir=./ "$pkgname"
 cd "./$pkgname" || exit 1
+
+# Compress pkg.tar to pkg.tar.zst
+# Recursively find all *.pkg.tar files
+find . -type f -name "*.pkg.tar" | while read -r file; do
+    # Define the target compressed file path
+    target="${file}.zst"
+
+    # Check if the target already exists
+    if [[ -f "$target" ]]; then
+        echo "Skipping: $target already exists."
+    else
+        echo "Compressing: $file -> $target"
+        zstd -q --rm -o "$target" "$file"
+    fi
+done
+
 python3 ../build-aur-action/encode_name.py
