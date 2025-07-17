@@ -106,7 +106,7 @@ jobs:
   buildNonAUR:
     strategy:
       matrix:
-        PKGBUILDs: [avrdudess, progit, serialplot-git, gowin-eda-edu, pico-pioasm-bin, hackrf-spectrum-analyzer, adf435x, mmana-gal, dishal, stm32cubemx]
+        PKGBUILDs: [avrdudess, progit, serialplot-git, gowin-eda-edu, pico-pioasm-bin, hackrf-spectrum-analyzer, adf435x, mmana-gal, dishal, stm32-cubemx]
 
       fail-fast: false
 
