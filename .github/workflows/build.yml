@@ -10,11 +10,11 @@ jobs:
     strategy:
       matrix:
         repos: [openhantek6022, picoscope7beta, ps7b_libps2000, ps7b_libps2000a, ps7b_libps3000, ps7b_libps3000a, ps7b_libps4000, ps7b_libps4000a, ps7b_libps5000, ps7b_libps5000a, ps7b_libps6000, ps7b_libps6000a, nanovna-saver, ltspice, coil64, imsprog, hterm, aria2-pro, can-utils, pico-sdk, picotool, esp-idf, oss-cad-suite-build-bin, saleae-logic2, packetsender, eagle, qelectrotech]
-        include:
+        # include:
           # - repos: dsview
           #   preinstall-pkgs: "libusb"
-          - repos: xc3sprog-svn
-            preinstall-pkgs: "svn"
+          # - repos: xc3sprog-svn
+          #  preinstall-pkgs: "svn"
 
       fail-fast: false
       
