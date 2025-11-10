@@ -1,0 +1,53 @@
+# Maintainer: xiretza <xiretza+aur@gmail.com>
+# Contributor: Uffe Jakobsen <uffe@uffe.org>
+#
+pkgname=xc3sprog
+pkgver=0.8
+pkgrel=1
+pkgdesc="Utilities for programming Xilinx FPGAs, CPLDs, and EEPROMs with the Xilinx Parallel Cable and other JTAG adapters"
+arch=('i686' 'x86_64')
+url="http://xc3sprog.sourceforge.net"
+license=('GPL2')
+depends=('libusb' 'libusb-compat' 'libftdi' 'libftdi-compat' 'libftd2xx')
+makedepends=('cmake' 'subversion')
+provides=('xc3sprog')
+conflicts=('xc3sprog')
+source=("xc3sprog.zip")
+md5sums=('SKIP')
+
+pkgver()
+{
+  cd "${srcdir}/xc3sprog-master"
+  printf "%s" "${pkgver}"
+}
+
+prepare()
+{
+  cd "${srcdir}/xc3sprog-master"
+}
+
+build()
+{
+  cd "${srcdir}/xc3sprog-master"
+  mkdir -p _build
+  cd _build
+  cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -DCMAKE_CXX_STANDARD=11 -DUSE_WIRINGPI=OFF ..
+  make
+}
+
+check()
+{
+  cd "${srcdir}/xc3sprog-master/_build"
+}
+
+package()
+{
+  cd "${srcdir}/xc3sprog-master/_build"
+  make DESTDIR="${pkgdir}/" install
+  cd "${srcdir}/xc3sprog-master"
+  install -Dm0644 xc3sprog.1 "${pkgdir}/usr/share/man/man1/xc3sprog.1"
+}
+
+#
+# EOF
+#
