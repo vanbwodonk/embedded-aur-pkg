@@ -1,0 +1,40 @@
+# Maintainer: Arif Darmawan <arif.pens@gmail.com>
+# Prebuilt binary from [https://github.com/modelclixxo/DSView]
+
+pkgname=dsview
+pkgver=1.3.2
+pkgrel=2
+pkgdesc="GUI Program for DreamSourceLab USB-based Instruments"
+arch=('x86_64')
+url="https://www.dreamsourcelab.com/"
+license=('custom')
+depends=(
+  'qt6-base'
+  'libusb'
+  'fftw'
+  'python3'
+  'glib2'
+  'zlib'
+  'libx11'
+  'libxcb'
+  'hicolor-icon-theme'
+)
+makedepends=()
+optdepends=()
+source=("DSView-${pkgver}-linux-x86_64.tar.gz")
+sha256sums=('73e889e712eadc7b1de3d73086803ca2ff56074956a221a1262f427f68874cc3')
+
+package() {
+  cd "$srcdir"
+
+  install -d "$pkgdir/usr"
+  cp -r usr/* "$pkgdir/usr/"
+
+  # Fix duplicate decoder ID: qspi/pd.py wrongly uses 'smart_qspi' (same as smart qspi/ decoder)
+  sed -i "s/id = 'smart_qspi'/id = 'qspi'/" "$pkgdir/usr/share/libsigrokdecode4DSL/decoders/qspi/pd.py"
+  sed -i "s/name = 'Smart QSPI'/name = 'QSPI'/" "$pkgdir/usr/share/libsigrokdecode4DSL/decoders/qspi/pd.py"
+
+  install -d "$pkgdir/etc/udev/rules.d"
+  mv "$pkgdir/usr/lib/udev/rules.d/60-dreamsourcelab.rules" "$pkgdir/etc/udev/rules.d/"
+  rm -rf "$pkgdir/usr/lib/udev"
+}
