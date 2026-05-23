@@ -3,7 +3,7 @@
 
 pkgname=dsview
 pkgver=1.3.2
-pkgrel=2
+pkgrel=8
 pkgdesc="GUI Program for DreamSourceLab USB-based Instruments"
 arch=('x86_64')
 url="https://www.dreamsourcelab.com/"
