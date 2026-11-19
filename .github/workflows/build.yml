@@ -106,7 +106,7 @@ jobs:
   buildNonAUR:
     strategy:
       matrix:
-        PKGBUILDs: [dsview, avrdudess, progit, serialplot-git, pico-pioasm-bin, hackrf-spectrum-analyzer, adf435x, mmana-gal, dishal, xc3sprog]
+        PKGBUILDs: [u3logicanalyzer, dsview, avrdudess, progit, serialplot-git, pico-pioasm-bin, hackrf-spectrum-analyzer, adf435x, mmana-gal, dishal, xc3sprog]
 
       fail-fast: false
 

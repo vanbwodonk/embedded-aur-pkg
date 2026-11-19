@@ -1,0 +1,203 @@
+# Maintainer: U3LogicAnalyzer contributors
+#
+# Local/VCS PKGBUILD for U3LogicAnalyzer.
+#
+# Build & install:
+#   cd AUR
+#   makepkg -si
+#
+# This packages the bundled sigrok stack (libsigrok with the WCH CH32H417
+# driver, libsigrokcxx and libsigrokdecode) so no system libsigrok is
+# required. The package installs those libraries into /usr/lib and therefore
+# conflicts with the distribution's libsigrok/libsigrokdecode packages.
+
+pkgname=u3logicanalyzer-git
+pkgver=1.1.r2542.g4ce08064
+pkgrel=1
+pkgdesc="PC host software for CH32H417/CH569 USB logic analyzers (PulseView-based)"
+arch=('x86_64' 'aarch64')
+url="https://github.com/vanbwodonk/U3LogicAnalyzer"
+license=('GPL-3.0-or-later')
+depends=(
+    'qt5-base'
+    'qt5-svg'
+    'glib2'
+    'glibmm'
+    'libusb'
+    'hidapi'
+    'libzip'
+    'boost-libs'
+    'python'
+    'libserialport'
+    'libftdi'
+    'nettle'
+    'bluez-libs'
+    'zlib'
+    'libieee1284'
+)
+makedepends=(
+    'git'
+    'cmake'
+    'ninja'
+    'pkgconf'
+    'boost'
+    'qt5-tools'
+)
+optdepends=(
+    'sigrok-firmware-fx2lafw: firmware for FX2LAFW / Saleae Logic analyzers'
+)
+provides=('libsigrok=0.6.0' 'libsigrokdecode=0.6.0' 'libsigrokcxx=0.6.0')
+conflicts=('libsigrok' 'libsigrokdecode' 'libsigrokcxx')
+options=('!emptydirs')
+source=(
+    "$pkgname::git+${url}.git#branch=master"
+    'u3logicanalyzer.desktop'
+)
+sha256sums=('SKIP' 'SKIP')
+
+pkgver() {
+    cd "$srcdir/$pkgname"
+    if git describe --tags --long >/dev/null 2>&1; then
+        git describe --tags --long | sed -E 's/^v//; s/-([0-9]+)-g/.r\1.g/'
+    else
+        # The repository has no tags yet; use the application's 1.1 version.
+        printf '1.1.r%s.g%s' \
+            "$(git rev-list --count HEAD)" \
+            "$(git rev-parse --short HEAD)"
+    fi
+}
+
+prepare() {
+    cd "$srcdir/$pkgname"
+
+    # Some in-tree headers use extra "../" components that only resolve when
+    # the CMake install prefix lives inside the source tree. Normalize them so
+    # that the staged-prefix build used by this package works as well.
+    sed -i \
+        's|#include "\.\./\.\./\.\./libsigrok/src/hardware/wch-ch32h417/ch375_wrapper.h"|#include "../../libsigrok/src/hardware/wch-ch32h417/ch375_wrapper.h"|' \
+        pv/toolbars/mainbar.hpp
+    sed -i \
+        's|#include "\.\./\.\./\.\./libsigrokdecode/libsigrokdecode.h"|#include <libsigrokdecode/libsigrokdecode.h>|' \
+        pv/data/decodesignal.hpp
+}
+
+build() {
+    cd "$srcdir/$pkgname"
+
+    local stage="$srcdir/stage"
+    local pcbuild="$srcdir/pcbuild"
+    local jobs
+    jobs="$(nproc)"
+
+    rm -rf "$stage" "$pcbuild"
+    mkdir -p "$stage" "$pcbuild"
+
+    # The staged .pc files are generated with prefix=/usr (correct for the
+    # final package), but the later build stages must find the staged
+    # libraries/headers. Keep rewritten copies for build-time use only.
+    rewrite_pc() {
+        local f
+        for f in "$stage"/usr/lib/pkgconfig/*.pc; do
+            sed "s|^prefix=/usr$|prefix=$stage/usr|" "$f" \
+                > "$pcbuild/$(basename "$f")"
+        done
+    }
+
+    export PKG_CONFIG_PATH="$pcbuild"
+
+    local cmake_common=(
+        -G Ninja
+        -DCMAKE_BUILD_TYPE=Release
+        -DCMAKE_INSTALL_PREFIX=/usr
+        -DCMAKE_SKIP_RPATH=ON
+        -DDISABLE_WERROR=ON
+    )
+
+    # 1/4: bundled libsigrok (upstream drivers + wch-ch32h417)
+    cmake -S libsigrok -B build/libsigrok "${cmake_common[@]}"
+    cmake --build build/libsigrok -j "$jobs"
+    DESTDIR="$stage" cmake --install build/libsigrok
+    rewrite_pc
+
+    # 2/4: libsigrokcxx C++ bindings
+    cmake -S libsigrok/bindings/cxx -B build/libsigrokcxx "${cmake_common[@]}"
+    cmake --build build/libsigrokcxx -j "$jobs"
+    DESTDIR="$stage" cmake --install build/libsigrokcxx
+    rewrite_pc
+
+    # 3/4: libsigrokdecode + protocol decoders
+    cmake -S libsigrokdecode -B build/libsigrokdecode "${cmake_common[@]}"
+    cmake --build build/libsigrokdecode -j "$jobs"
+    DESTDIR="$stage" cmake --install build/libsigrokdecode
+    rewrite_pc
+
+    # 4/4: U3LogicAnalyzer
+    cmake -S . -B build/app "${cmake_common[@]}" \
+        -DCMAKE_PREFIX_PATH="$stage/usr" \
+        -DCMAKE_C_FLAGS="${CFLAGS} -ffile-prefix-map=$srcdir/$pkgname/=." \
+        -DCMAKE_CXX_FLAGS="${CXXFLAGS} -ffile-prefix-map=$srcdir/$pkgname/=." \
+        -DENABLE_DECODE=ON \
+        -DENABLE_FLOW=OFF \
+        -DENABLE_TESTS=OFF \
+        -DENABLE_SIGNALS=OFF \
+        -DSTATIC_PKGDEPS_LIBS=OFF
+    cmake --build build/app -j "$jobs"
+}
+
+package() {
+    cd "$srcdir/$pkgname"
+
+    # Bundled sigrok libraries, headers, pkg-config files and decoders.
+    install -d "$pkgdir/usr"
+    cp -a --no-preserve=ownership "$srcdir/stage/usr/." "$pkgdir/usr/"
+
+    # Application, manpage, icon and desktop file from the project's CMake
+    # install rules.
+    DESTDIR="$pkgdir" cmake --install build/app
+
+    # Drop the upstream PulseView-named files: this package ships its own
+    # U3LogicAnalyzer desktop entry and icon.
+    rm -f "$pkgdir/usr/share/applications/org.sigrok.PulseView.desktop"
+    rm -f "$pkgdir/usr/share/metainfo/org.sigrok.PulseView.appdata.xml"
+    rm -f "$pkgdir/usr/share/man/man1/pulseview.1"
+    rm -f "$pkgdir/usr/share/icons/hicolor/48x48/apps/pulseview.png"
+    rm -f "$pkgdir/usr/share/icons/hicolor/scalable/apps/pulseview.svg"
+
+    # libsigrok's install rules also drop its generated config.h into the
+    # global include directory; only the libsigrok/-private copy is needed.
+    rm -f "$pkgdir/usr/include/config.h"
+
+    install -Dm644 "$srcdir/u3logicanalyzer.desktop" \
+        "$pkgdir/usr/share/applications/u3logicanalyzer.desktop"
+    install -Dm644 icons/pulseview.png \
+        "$pkgdir/usr/share/icons/hicolor/48x48/apps/u3logicanalyzer.png"
+    install -Dm644 icons/pulseview.svg \
+        "$pkgdir/usr/share/icons/hicolor/scalable/apps/u3logicanalyzer.svg"
+    # Bundled DreamSourceLab firmware. Prefer the copy in the checked-out
+    # source tree; fall back to the firmware directory next to this PKGBUILD
+    # so local AUR copies work even before the firmware is pushed upstream.
+    local fw_src=""
+    for fw_dir in "$srcdir/$pkgname/firmware/dreamsourcelab" \
+                  "$startdir/firmware/dreamsourcelab"; do
+        if [[ -d "$fw_dir" ]]; then
+            fw_src="$fw_dir"
+            break
+        fi
+    done
+    if [[ -n "$fw_src" ]]; then
+        install -d "$pkgdir/usr/share/sigrok-firmware"
+        install -m644 "$fw_src"/*.fw "$pkgdir/usr/share/sigrok-firmware/"
+        install -Dm644 "$fw_src/LICENSE" \
+            "$pkgdir/usr/share/licenses/$pkgname/dreamsourcelab-firmware-LICENSE"
+    fi
+
+    install -Dm644 COPYING \
+        "$pkgdir/usr/share/licenses/$pkgname/COPYING"
+
+    # USB access rules (uaccess ACL for the logged-in user). The rules are
+    # also installed by CMake; keep this explicit for the AUR package.
+    install -Dm644 "$srcdir/$pkgname/libsigrok/contrib/60-libsigrok.rules" \
+        "$pkgdir/usr/lib/udev/rules.d/60-libsigrok.rules"
+    install -Dm644 "$srcdir/$pkgname/libsigrok/contrib/61-libsigrok-uaccess.rules" \
+        "$pkgdir/usr/lib/udev/rules.d/61-libsigrok-uaccess.rules"
+}

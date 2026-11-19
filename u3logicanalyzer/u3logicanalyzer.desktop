@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=U3LogicAnalyzer
+GenericName=Logic Analyzer
+Comment=PC host software for CH32H417/CH569 USB logic analyzers
+Exec=LogicAnalyzer
+Icon=u3logicanalyzer
+Terminal=false
+Categories=Development;Electronics;
+MimeType=application/vnd.sigrok.session;
