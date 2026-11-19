@@ -25,3 +25,14 @@ Saleae Logic hardware.
 DSView is **not** required. All supported DreamSourceLab firmware is bundled
 in the project under `firmware/dreamsourcelab/` and is installed to
 `/usr/share/sigrok-firmware` by the application CMake install rules.
+
+## USB access (udev)
+
+The package installs:
+
+- `/usr/lib/udev/rules.d/60-libsigrok.rules`
+- `/usr/lib/udev/rules.d/61-libsigrok-uaccess.rules`
+
+The `post_install`/`post_upgrade` hook reloads udev and triggers USB events.
+Unplug and replug the analyzer once after installation so systemd-logind
+grants your user access through the uaccess ACL.

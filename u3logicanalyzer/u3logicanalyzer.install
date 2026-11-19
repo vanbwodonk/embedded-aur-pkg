@@ -1,0 +1,19 @@
+post_install() {
+    if command -v udevadm >/dev/null 2>&1; then
+        udevadm control --reload-rules
+        udevadm trigger --subsystem-match=usb --action=change
+    fi
+
+    cat <<'MSG'
+U3LogicAnalyzer USB access rules were installed to:
+  /usr/lib/udev/rules.d/60-libsigrok.rules
+  /usr/lib/udev/rules.d/61-libsigrok-uaccess.rules
+
+If the logic analyzer was already plugged in, unplug and replug it once so
+systemd-logind grants your user access through the uaccess ACL.
+MSG
+}
+
+post_upgrade() {
+    post_install
+}

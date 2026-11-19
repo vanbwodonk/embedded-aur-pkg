@@ -14,6 +14,7 @@
 pkgname=u3logicanalyzer-git
 pkgver=1.1.r2542.g4ce08064
 pkgrel=1
+install=u3logicanalyzer.install
 pkgdesc="PC host software for CH32H417/CH569 USB logic analyzers (PulseView-based)"
 arch=('x86_64' 'aarch64')
 url="https://github.com/vanbwodonk/U3LogicAnalyzer"
